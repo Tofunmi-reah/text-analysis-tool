@@ -63,6 +63,14 @@ def extractKeySentences(sentences, searchPattern):
         if re.search(searchPattern, sentence.lower()):
             matchedSentences.append(sentence)
     return matchedSentences
+
+# Get the average word for sentencesS
+def getwordsPerSentences(sentences):
+    totalWords = 0
+    for sentence in sentences:
+       totalWords += len(sentence.split(" "))
+    return totalWords / len(sentences)
+
     
 
 # Get User Details
@@ -78,6 +86,7 @@ articleWords = tokenizeWords(articleSentence)
 # Get Analytics
 stockSearchPattern = "[0-9]|[%$£€]|thousand|million|billion|trillion|profit|loss"
 keySentences = extractKeySentences(articleSentence, stockSearchPattern)
+wordsPerSentences = getwordsPerSentences(articleSentence)
 
 print("GOT:")
-print(keySentences)
+print(wordsPerSentences)
