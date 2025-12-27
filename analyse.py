@@ -64,12 +64,23 @@ def extractKeySentences(sentences, searchPattern):
             matchedSentences.append(sentence)
     return matchedSentences
 
-# Get the average word for sentencesS
+# Get the average word for sentences
 def getwordsPerSentences(sentences):
     totalWords = 0
     for sentence in sentences:
        totalWords += len(sentence.split(" "))
     return totalWords / len(sentences)
+
+# Filter raw tokenize english words list to only include 
+# valid english words
+def cleanseWordList(words):
+    cleansedWords = []
+    invalidWordPattern = "[^a-zA-Z-]"
+    for word in words:
+        cleansedWord = word.replace(".", "").lower()
+        if (not re.search(invalidWordPattern, cleansedWord)) and len(word) > 1:
+            cleansedWords.append(cleansedWord)
+    return cleansedWords
 
     
 
@@ -83,10 +94,13 @@ articleTextRaw = getArticleText()
 articleSentence = tokenizeSentences(articleTextRaw)
 articleWords = tokenizeWords(articleSentence)
 
-# Get Analytics
+# Get  Sentences Analytics
 stockSearchPattern = "[0-9]|[%$£€]|thousand|million|billion|trillion|profit|loss"
 keySentences = extractKeySentences(articleSentence, stockSearchPattern)
 wordsPerSentences = getwordsPerSentences(articleSentence)
 
-print("GOT:")
-print(wordsPerSentences)
+# Get Word Analytics
+articleWordsCleansed = cleanseWordList(articleWords)
+
+print("GOT:")  
+print(articleWordsCleansed)
